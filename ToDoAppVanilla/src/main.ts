@@ -16,22 +16,48 @@ const tasks:any = [
 
 
 const todoContainer: any = document.getElementById("todo-container");
+let taskItem: any = document.createElement('span');
+let taskContainer: any = document.createElement("div");
+
 
 
 const renderTaskList = () => {
     for (let i:number = 0 ; i < tasks.length; i ++) {
         //Creates task container
-        let taskContainer: any = document.createElement("div");
-        taskContainer.id = 'task-container';
+        taskContainer = document.createElement("div");
+        taskContainer.className = 'task-container';
         todoContainer.appendChild(taskContainer);
 
-        let taskItem: any = document.createElement('span');
-        taskItem.id = 'task-item';
+        taskItem = document.createElement('span');
+        taskItem.className = 'task-item';
         let taskName = tasks[i].taskName;
         taskContainer.appendChild(taskItem); 
-        taskItem.innerHTML = taskName;
-        
+        taskItem.innerHTML = taskName;     
+
+        renderTaskButtons();
     }
+}
+
+const renderTaskButtons = () => {
+    let buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'buttons-container';
+    taskContainer.appendChild(buttonsContainer);
+
+    let deleteButton = document.createElement('input');
+    deleteButton.className = 'delete-button';
+    deleteButton.type = 'image';
+    deleteButton.src = './cross.png';
+    buttonsContainer.appendChild(deleteButton);
+
+    let checkmarkButton = document.createElement('input');
+    checkmarkButton.className = 'checkmark-button';
+    checkmarkButton.type = 'image';
+    checkmarkButton.src = './checkmark.png';
+    buttonsContainer.appendChild(checkmarkButton);
+}
+
+const deleteTask = () => {
+
 }
 
 
