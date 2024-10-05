@@ -18,20 +18,14 @@ class Task {
 
 
 
-const todoContainer: any = document.getElementById("todo-container");
-let taskItem: any = document.createElement('span');
-let taskContainer: any = document.createElement("div");
+const todoContainer: HTMLElement = document.getElementById("todo-container");
+let taskItem: HTMLElement = document.createElement('span');
+let taskContainer: HTMLElement = document.createElement("div");
 let taskInput = document.createElement('input');
-let taskInputValue;
+let taskInputValue: string;
+let taskEditInputValue: any;
 const addTaskButton: HTMLElement = document.getElementById('addTaskButton');
 const saveTaskButton: HTMLElement = document.getElementById('saveTaskButton');
-
-
-
-
-
-
-
 
 
 const renderTaskList = () => {
@@ -48,8 +42,7 @@ const renderTaskList = () => {
         taskContainer.appendChild(taskItem); 
         taskItem.innerHTML = taskName; 
         console.log(tasks[i].taskID)
-        renderTaskButtons(tasks[i].taskID);
-        
+        renderTaskButtons(tasks[i].taskID);        
     }
 }
 
@@ -57,11 +50,13 @@ const renderTaskButtons = (taskItemID: string) => {
     let buttonsContainer = document.createElement('div');
     buttonsContainer.className = 'buttons-container';
     taskContainer.appendChild(buttonsContainer);
+    taskItem.onclick = () => editTask(taskItemID);
 
     let deleteButton = document.createElement('input');
     deleteButton.className = 'delete-button';
     deleteButton.type = 'image';
     deleteButton.src = './cross.png';
+    deleteButton.onclick = () => deleteTask(taskItemID);
     buttonsContainer.appendChild(deleteButton);
 
     let checkmarkButton = document.createElement('input');
@@ -85,13 +80,35 @@ for (let i: number = 0 ; i < tasks.length ; i ++ ) {
     } 
     updateTasksCompleted();
     renderTaskList();
+}
 
+const editTask = (taskItemID: string) => {
+
+};
+
+const deleteTask = (taskItemID: string) => {
+    for (let i: number = 0 ; i < tasks.length ; i++ ) {
+        if(tasks[i].taskID === taskItemID) {
+            let indexDeletedTask = tasks.indexOf(tasks[i]);
+            tasks.splice(indexDeletedTask, 1);
+            taskIDNumber--;
+        }
+        renderTaskList();
+    }
 }
 
 const updateTasksCompleted = () => {
     document.getElementById('tasks-completed-counter').innerHTML = 'Total tasks completed: ' + tasksCompleted;   
 }
 
+
+todoContainer.addEventListener('click', () => {
+    console.log('clicked');
+    taskItem.addEventListener('click',  () => {
+        let taskToBeEdited = document. getElementById('task-item');
+        console.log(taskToBeEdited);
+    })
+});  
 
 addTaskButton.addEventListener('click', () => {
     if (tasks.length < 6) {
@@ -105,20 +122,25 @@ addTaskButton.addEventListener('click', () => {
 
 
 saveTaskButton.addEventListener('click', () => {
-    saveTaskButton.style.display = 'none';
-    addTaskButton.style.display = 'block';
-    
+
     let taskInputValue = taskInput.value;
 
-
+    if (taskInputValue === '' || null ) {
+        taskInput.placeholder = "Enter task here!";
+    }
+    else {
         let newTask:any = new Task(taskInputValue, taskIDNumber);
         taskIDNumber++;
         tasks.push(newTask);
         todoContainer.removeChild(taskInput);
         renderTaskList();
         taskInput.value = '';
-
+        saveTaskButton.style.display = 'none';
+        addTaskButton.style.display = 'block'; 
+    }
 });
+
+
 
 
 renderTaskList();
