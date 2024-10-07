@@ -13,7 +13,8 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  background: linear-gradient(to top, rgb(233, 201, 154), rgb(233, 201, 154));
+/*   background: linear-gradient(to top, rgb(233, 201, 154), rgb(233, 201, 154));
+ */  background: white;
 }
 
 .header-container {
@@ -49,23 +50,24 @@ body {
 .task-container {
   position: relative;
   width: 80%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(203, 234, 255, 0.7);
   margin-top: 10px;
   border-radius: 15px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .task-item {
-  font-size: 30px;
+  font-size: 20px;
   font-family: 'poppins';
-  color: #597CFF;
+  color: #000000;
   padding: 10px;
   font-weight: 400;
 }
 
 .buttons-container {
-  width: 40%;
+  width: 30%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -73,11 +75,14 @@ body {
 }
 
 .delete-button {
-  scale:0.6;
+  scale:0.4;
+  margin: 0;
+  padding: 0;
 }
 
 .checkmark-button {
-  scale: 0.6;
+  scale: 0.4;
+  margin-left: -15px;
 }
 
 .add-task-button {
@@ -93,12 +98,12 @@ body {
 
 .task-input {
   font-family: 'poppins';
-  color: #597CFF;
+  color: #000000;
   width: 344px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(203, 234, 255, 0.7);
   margin-top: 10px;
   border-radius: 15px;
-  font-size: 30px;
+  font-size: 20px;
   border: none;
   height: 66px;
   display: flex;
@@ -124,8 +129,8 @@ body {
   height: 50px;
   width: 100%;
   font-family: 'Poppins';
-  color:white;
-  font-size: 18px;
+  color:black;
+  font-size: 14px;
 }
 
 #tasks-completed-counter {
@@ -134,28 +139,31 @@ body {
 
 #newEditInputForm {
   font-family: 'poppins';
-  color: #597CFF;
+  color: black;
   width: 344px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(203, 234, 255, 0.7);
   border-radius: 15px;
-  font-size: 30px;
+  font-size: 20px;
   border: none;
-  height: 66px;
+  height: 60px;
   display: flex;
   padding: 0;
   text-align: center;
 }
 
 #editTaskContainer {
-  width: 80%;
-/*   background-color: rgba(255, 255, 255, 0.7);
- */  border-radius: 15px;
- margin-top: 10px;
+
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7); 
+  border-radius: 15px;
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
+/*   justify-content: space-between;  */
   align-items: center;
-}
+  margin-top: 10px;
+/*   height: 60px;
+ */}
+
 
 #saveEditButton {
   position: absolute;
@@ -168,7 +176,4 @@ body {
   font-family: 'poppins';
   font-size: 20px;
   padding: 0;
-  margin: 0;
-  margin-right: -20px;
-  font-weight: 600;
 }
