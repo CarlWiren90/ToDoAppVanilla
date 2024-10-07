@@ -66,22 +66,27 @@ const renderTaskButtons = (taskItemID: number) => {
     checkmarkButton.type = 'image';
     checkmarkButton.src = './checkmark.png';
     checkmarkButton.onclick = () => completeTask(taskItemID);
+    ;
     buttonsContainer.appendChild(checkmarkButton);
 }
 
 const completeTask = (taskItemID: number): void => {
-for (let i: number = 0 ; i < tasks.length ; i ++ ) {
+    for (let i: number = 0 ; i < tasks.length ; i ++ ) {
         if (tasks[i].taskID === taskItemID) {
-            let indexCompletedTask = i;
-            tasks.splice(indexCompletedTask, 1);
-/*             console.log(`deleted ${taskItemID}`);
- */            console.log(tasks);
-            taskIDNumber--;
-            tasksCompleted++;
+
+            completedTaskTransition(i);
+
+            setTimeout(() => {
+                let indexCompletedTask = i;
+                tasks.splice(indexCompletedTask, 1);
+                console.log(tasks);
+                taskIDNumber--;
+                tasksCompleted++;
+                updateTasksCompleted();
+                renderTaskList();
+            }, 800)
         }
     } 
-    updateTasksCompleted();
-    renderTaskList();
 }
 
 const editTask = (taskItemID: number): void => {
@@ -190,6 +195,10 @@ saveTaskButton?.addEventListener('click', () => {
 
 
 
+const completedTaskTransition = (containerID: number): void => {
+    const taskCompletedContainer = document.querySelector('#task-container' + containerID);
+    taskCompletedContainer?.classList.toggle('active');
+}
 
 renderTaskList();
 updateTasksCompleted();
