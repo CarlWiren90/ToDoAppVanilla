@@ -135,7 +135,7 @@ const updateTasksCompleted = () => {
 
 todoContainer.addEventListener('click', () => {
     taskItem.addEventListener('click',  () => {
-        let taskToBeEdited: HTMLElement | null = document. getElementById('task-item');
+        let taskToBeEdited: HTMLElement | null = document.getElementById('task-item');
     })
 });  
 
