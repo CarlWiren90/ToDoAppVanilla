@@ -48,6 +48,7 @@ body {
 }
 
 .task-container {
+  position: relative;
   width: 80%;
   background-color: rgba(203, 234, 255, 0.7);
   margin-top: 10px;
@@ -151,28 +152,28 @@ body {
 }
 
 #editTaskContainer {
+
   width: 100%;
-/*   background-color: rgba(255, 255, 255, 0.7);  */ 
+  background-color: rgba(255, 255, 255, 0.7); 
   border-radius: 15px;
   display: flex;
   flex-direction: row-reverse;
 /*   justify-content: space-between;  */
   align-items: center;
   margin-top: 10px;
-/*   height: 66px;
+/*   height: 60px;
  */}
 
+
 #saveEditButton {
-  /* position: absolute;
-  left: 250px;
-  top: 168px; */
-  width: 70px;
+  position: absolute;
+  right: 80px;
+  z-index: 10;
+  width: 50px;
   height: 50px;
   background: none;
   border: none;
   font-family: 'poppins';
-  font-size: 15px;
+  font-size: 20px;
   padding: 0;
-/*   margin-left: -20px;
- */
 }

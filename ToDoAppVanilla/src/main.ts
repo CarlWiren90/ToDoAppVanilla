@@ -18,50 +18,50 @@ class Task {
 
 
 
-const todoContainer: HTMLElement | Node | null = document.getElementById("todo-container");
+const todoContainer: HTMLElement | null = document.getElementById("todo-container");
 let taskItem: HTMLElement = document.createElement('span');
 let taskContainer: HTMLElement = document.createElement("div");
-let taskInput: Node | HTMLElement | string = document.createElement('input');
-let taskInputValue: Node | HTMLElement | string;
-let taskEditInputValue: Node | HTMLElement | string;
-const addTaskButton: HTMLElement | null | Node = document.getElementById('addTaskButton');
-const saveTaskButton: HTMLElement | null = document.getElementById('saveTaskButton');
+let taskInput: HTMLInputElement = document.createElement('input');
+let taskInputValue: string;
+const addTaskButton = document.querySelector<HTMLButtonElement>('#addTaskButton');
+const saveTaskButton = document.querySelector<HTMLButtonElement>('#saveTaskButton');
 
-
-const renderTaskList = () => {
-    todoContainer.innerHTML = '';
-    for (let i:number = 0 ; i < tasks.length; i ++) {
-        //Creates task container
-        taskContainer = document.createElement("div");
-        taskContainer.className = 'task-container';
-        taskContainer.id = 'task-container' + tasks.indexOf(tasks[i]);
-        todoContainer.appendChild(taskContainer);
-
-        taskItem = document.createElement('span');
-        taskItem.className = 'task-item';
-        let taskName = tasks[i].taskName;
-        taskContainer.appendChild(taskItem); 
-        taskItem.innerHTML = taskName; 
-        console.log(tasks[i].taskID)
-        console.log(tasks);
-        renderTaskButtons(tasks[i].taskID);        
+const renderTaskList = ():void => {
+    if (todoContainer) {
+        todoContainer.innerHTML = '';
+        for (let i:number = 0 ; i < tasks.length; i ++) {
+            //Creates task container
+            taskContainer = document.createElement("div") as HTMLElement;
+            taskContainer.className = 'task-container';
+            taskContainer.id = 'task-container' + tasks.indexOf(tasks[i]);
+            todoContainer.appendChild(taskContainer);
+    
+            taskItem = document.createElement('span') as HTMLElement;
+            taskItem.className = 'task-item';
+            let taskName = tasks[i].taskName;
+            taskContainer.appendChild(taskItem); 
+            taskItem.innerHTML = taskName; 
+            console.log(tasks[i].taskID)
+            console.log(tasks);
+            renderTaskButtons(tasks[i].taskID);        
+        }
     }
 }
 
 const renderTaskButtons = (taskItemID: number) => {
-    let buttonsContainer = document.createElement('div');
+    let buttonsContainer = document.createElement('div') as HTMLElement;
     buttonsContainer.className = 'buttons-container';
     taskContainer.appendChild(buttonsContainer);
     taskItem.onclick = () => editTask(taskItemID);
 
-    let deleteButton = document.createElement('input');
+    let deleteButton = document.createElement('input') as HTMLInputElement;
     deleteButton.className = 'delete-button';
     deleteButton.type = 'image';
     deleteButton.src = './cross.png';
     deleteButton.onclick = () => deleteTask(taskItemID);
     buttonsContainer.appendChild(deleteButton);
 
-    let checkmarkButton = document.createElement('input');
+    let checkmarkButton = document.createElement('input') as HTMLInputElement;
     checkmarkButton.className = 'checkmark-button';
     checkmarkButton.type = 'image';
     checkmarkButton.src = './checkmark.png';
@@ -69,10 +69,10 @@ const renderTaskButtons = (taskItemID: number) => {
     buttonsContainer.appendChild(checkmarkButton);
 }
 
-const completeTask = (taskItemID: number) => {
+const completeTask = (taskItemID: number): void => {
 for (let i: number = 0 ; i < tasks.length ; i ++ ) {
         if (tasks[i].taskID === taskItemID) {
-            let indexCompletedTask = tasks.indexOf(tasks[i]);
+            let indexCompletedTask = i;
             tasks.splice(indexCompletedTask, 1);
 /*             console.log(`deleted ${taskItemID}`);
  */            console.log(tasks);
@@ -84,43 +84,57 @@ for (let i: number = 0 ; i < tasks.length ; i ++ ) {
     renderTaskList();
 }
 
-const editTask = (taskItemID: number) => {
+const editTask = (taskItemID: number): void => {
+    if (addTaskButton) {
+        addTaskButton.style.display = 'none'
+    }
     for (let i:number = 0 ; i < tasks.length ; i ++) {
         if (tasks[i].taskID === taskItemID) {
-            let taskContainerToBeRemoved = document.getElementById('task-container' + tasks.indexOf(tasks[i]));
-            let editTaskContainer = document.createElement('div');
+            let taskContainerToBeRemoved = document.getElementById('task-container' + i);
+            let editTaskContainer = document.createElement('div') as HTMLElement;
             editTaskContainer.id ='editTaskContainer';
-            taskContainerToBeRemoved.replaceWith(editTaskContainer);
 
-            let saveEditButton = document.createElement('button');
-            saveEditButton.id = 'saveEditButton';
-            saveEditButton.innerText = 'Save!';
-            editTaskContainer.appendChild(saveEditButton);
-            
-            let newEditInputForm = document.createElement('input');
-            newEditInputForm.id = 'newEditInputForm';
-            newEditInputForm.value = tasks[i].taskName;
-            editTaskContainer.appendChild(newEditInputForm);
+            if (taskContainerToBeRemoved) {
+                taskContainerToBeRemoved.replaceWith(editTaskContainer);
 
-            saveEditButton.addEventListener('click', () => {
-                console.log('save clicked');               
-                let newEditedTask = new Task(newEditInputForm.value, tasks.indexOf(tasks[i]));
-                let taskToBeEditedIndex = tasks.indexOf(tasks[i]);
-                tasks.splice(taskToBeEditedIndex, 1);
-                tasks.splice(taskToBeEditedIndex, 0, newEditedTask);
-                editTaskContainer.removeChild(newEditInputForm);
-                todoContainer?.removeChild(editTaskContainer);
-                renderTaskList();
-                console.log(tasks);
-            })
+                let saveEditButton = document.createElement('button') as HTMLButtonElement;
+                saveEditButton.id = 'saveEditButton';
+                saveEditButton.innerText = 'Save!';
+                editTaskContainer.appendChild(saveEditButton);
+                
+                let newEditInputForm = document.createElement('input') as HTMLInputElement;
+                newEditInputForm.id = 'newEditInputForm';
+                newEditInputForm.value = tasks[i].taskName;
+                editTaskContainer.appendChild(newEditInputForm);
+    
+                saveEditButton.addEventListener('click', () => {
+                    console.log('save clicked');               
+                    let newEditedTask: Task = new Task(newEditInputForm.value, i);
+                    let taskToBeEditedIndex = i;
+                    tasks.splice(taskToBeEditedIndex, 1);
+                    tasks.splice(taskToBeEditedIndex, 0, newEditedTask);
+                    editTaskContainer.removeChild(newEditInputForm);
+                    todoContainer?.removeChild(editTaskContainer);
+                    renderTaskList();
+                    console.log(tasks);
+                    
+                    if (addTaskButton) {
+                        addTaskButton.style.display = 'block'
+                    }
+                })
+            }
+            else {
+                console.log(`Task container with ID 'task-container${i}' is not found`);
+            }
         }
     }
+
 };
 
-const deleteTask = (taskItemID: number) => {
+const deleteTask = (taskItemID: number): void => {
     for (let i: number = 0 ; i < tasks.length ; i++ ) {
         if(tasks[i].taskID === taskItemID) {
-            let indexDeletedTask = tasks.indexOf(tasks[i]);
+            let indexDeletedTask = i;
             tasks.splice(indexDeletedTask, 1);
             taskIDNumber--;
         }
@@ -128,43 +142,49 @@ const deleteTask = (taskItemID: number) => {
     }
 }
 
-const updateTasksCompleted = () => {
-    document.getElementById('tasks-completed-counter').innerHTML = 'Total tasks completed: ' + tasksCompleted;   
+const updateTasksCompleted = (): void => {
+    document.getElementById('tasks-completed-counter')!.innerHTML = 'Total tasks completed: ' + tasksCompleted;   
 }
 
 
-todoContainer.addEventListener('click', () => {
+todoContainer?.addEventListener('click', () => {
     taskItem.addEventListener('click',  () => {
-        let taskToBeEdited: HTMLElement | null = document.getElementById('task-item');
     })
 });  
 
-addTaskButton.addEventListener('click', () => {
+addTaskButton?.addEventListener('click', () => {
     if (tasks.length < 6) {
         addTaskButton.style.display = 'none';
         taskInput.className = 'task-input';
         taskInput.id = 'task-input-id';
-        todoContainer.appendChild(taskInput);
-        saveTaskButton.style.display = 'block';
+        todoContainer?.appendChild(taskInput);
+
+        if(saveTaskButton) {
+            saveTaskButton.style.display = 'block';
+
+        }
     }
 });
 
 
-saveTaskButton.addEventListener('click', () => {
+saveTaskButton?.addEventListener('click', () => {
 
     taskInputValue = taskInput.value;
     if (taskInputValue === '' || null ) {
         taskInput.placeholder = "Enter task here!";
     }
     else {
-        let newTask:any = new Task(taskInputValue, taskIDNumber);
+        const newTask:Task = new Task(taskInputValue, taskIDNumber);
         taskIDNumber++;
         tasks.push(newTask);
-        todoContainer.removeChild(taskInput);
+        todoContainer?.removeChild(taskInput);
         renderTaskList();
         taskInput.value = '';
         saveTaskButton.style.display = 'none';
-        addTaskButton.style.display = 'block'; 
+
+        if (addTaskButton) {
+            addTaskButton.style.display = 'block'; 
+        }
     }
 });
 
@@ -173,5 +193,7 @@ saveTaskButton.addEventListener('click', () => {
 
 renderTaskList();
 updateTasksCompleted();
-saveTaskButton.style.display = 'none';
+if (saveTaskButton) {
+    saveTaskButton.style.display = 'none';
+}
 
