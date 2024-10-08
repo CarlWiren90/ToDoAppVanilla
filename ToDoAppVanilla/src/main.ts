@@ -46,6 +46,7 @@ const renderTaskList = ():void => {
             renderTaskButtons(tasks[i].taskID);        
         }
     }
+    
 }
 
 const renderTaskButtons = (taskItemID: number) => {
